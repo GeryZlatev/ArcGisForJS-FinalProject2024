@@ -1,5 +1,11 @@
-require(["esri/config", "esri/WebMap", "esri/views/MapView", "esri/widgets/Home",],
-    function (esriConfig, WebMap, MapView, Home) {
+require([
+    "esri/config",
+    "esri/WebMap",
+    "esri/views/MapView",
+    "esri/widgets/Home",
+    "esri/widgets/LayerList"
+],
+    function (esriConfig, WebMap, MapView, Home, LayerList) {
 
         esriConfig.apiKey = "AAPK77ebc8a134de4074a160da0e32d0d877onv_cK6xV7_3fD5hbgt8oYIPGcwHVf3SZVZkhweY7eONVEXqwdhRAkgphMmXCg9x";
 
@@ -17,6 +23,21 @@ require(["esri/config", "esri/WebMap", "esri/views/MapView", "esri/widgets/Home"
         const homeBtn = new Home({
             view,
         });
+
+        view.ui.add(homeBtn, "top-left");
+
+        const layerList = new LayerList({
+            view,
+        });
+
+        view.ui.add("layer-list-btn","top-right");
+        view.ui.add(layerList, "top-right");
+
+        document.getElementById("layer-list-btn").addEventListener("click", function() {
+            const layerListEl = document.getElementsByClassName("esri-layer-list")[0];
+            const currentProp = layerListEl.style.getPropertyValue("display");
+
+            layerListEl.style.setProperty("display", currentProp == "none" ? "block" : "none");
+        })
         
-        view.ui.add(homeBtn, "bottom-left");
     })
