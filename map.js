@@ -5,6 +5,8 @@ require([
     "esri/widgets/Home",
     "esri/widgets/LayerList",
     "esri/widgets/BasemapGallery",
+    "esri/widgets/Directions",
+    "esri/layers/RouteLayer"
 ],
     function (
         esriConfig,
@@ -13,9 +15,13 @@ require([
         Home,
         LayerList,
         BasemapGallery,
+        Directions,
+        RouteLayer
     ) {
 
         esriConfig.apiKey = "AAPK77ebc8a134de4074a160da0e32d0d877onv_cK6xV7_3fD5hbgt8oYIPGcwHVf3SZVZkhweY7eONVEXqwdhRAkgphMmXCg9x";
+
+        const routeLayer = new RouteLayer();
 
         const webmap = new WebMap({
             portalItem: {
@@ -23,10 +29,20 @@ require([
             },
         });
 
+        webmap.layers.add(routeLayer);
+
         const view = new MapView({
             container: "viewDiv",
             map: webmap,
         });
+
+        const directionsWidget = new Directions({
+            layer: routeLayer,
+            apiKey: esriConfig.apiKey,
+            view
+        })
+
+        view.ui.add(directionsWidget, { position: "bottom-left" });
 
         const homeBtn = new Home({
             view,
@@ -52,12 +68,12 @@ require([
             toggleButton("layerList");
         });
 
-        document.getElementById("basemap-gallery-btn").addEventListener("click", function(){
+        document.getElementById("basemap-gallery-btn").addEventListener("click", function () {
             toggleButton("gallery");
         });
 
         function toggleButton(element) {
-            if(element == "layerList") {
+            if (element == "layerList") {
                 const layerListEl = document.getElementsByClassName("esri-layer-list")[0];
                 const currentProp = layerListEl.style.getPropertyValue("display");
                 layerListEl.style.setProperty("display", currentProp == "none" ? "block" : "none");
