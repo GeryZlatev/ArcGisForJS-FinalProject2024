@@ -56,12 +56,12 @@ require([
             toggleButton("gallery");
         });
 
-        function toggleButton(el) {
-            if(el == "layerList") {
+        function toggleButton(element) {
+            if(element == "layerList") {
                 const layerListEl = document.getElementsByClassName("esri-layer-list")[0];
                 const currentProp = layerListEl.style.getPropertyValue("display");
                 layerListEl.style.setProperty("display", currentProp == "none" ? "block" : "none");
-            } else if (el == "gallery") {
+            } else if (element == "gallery") {
                 const galleryEl = document.getElementsByClassName("esri-basemap-gallery")[0];
                 const currentPropGallery = galleryEl.style.getPropertyValue("display");
                 galleryEl.style.setProperty("display", currentPropGallery == "none" ? "block" : "none");
